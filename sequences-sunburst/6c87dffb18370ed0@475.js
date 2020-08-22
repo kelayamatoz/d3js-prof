@@ -5,11 +5,7 @@ export default function define(runtime, observer) {
   main.builtin("FileAttachment", runtime.fileAttachments(name => fileAttachments.get(name)));
   main.variable(observer()).define(["md"], function (md) {
     return (
-      md`# Sequences Sunburst
-
-This example shows how it is possible to use a [sunburst visualization](https://observablehq.com/@d3/sunburst)  with data that describes sequences of events. Hover over the segments to see the corresponding sequences.
-
-A good use case is to summarize navigation paths through a web site or app, as in the sample data file (which is attached to the \`csv\` cell). Where a funnel lets you understand a single pre-selected path, this allows you to see all possible paths. For example, you might want to compare visits that start directly on a product page (e.g. after landing there from a search engine) to visits where users arrive on the site's home page and navigate from there.
+      md`# Profiling Results
 `
     )
   });
@@ -77,7 +73,7 @@ A good use case is to summarize navigation paths through a web site or app, as i
       .attr("x", 0)
       .attr("y", 0)
       .attr("dy", "1.5em")
-      .text("of visits begin with this sequence");
+      .text("of visits begin with this controller.");
 
     svg
       .attr("viewBox", `${-radius} ${-radius} ${width} ${width}`)
@@ -142,26 +138,6 @@ A good use case is to summarize navigation paths through a web site or app, as i
   }
   );
   main.variable(observer("sunburst")).define("sunburst", ["Generators", "viewof sunburst"], (G, _) => G.input(_));
-  main.variable(observer()).define(["md"], function (md) {
-    return (
-      md`
-Features:
-
-* works with data that is in a CSV format (you don't need to pre-generate a hierarchical JSON file, unless your data file is very large) - in Observable, you can just replace the file that's attached to the \`csv\` cell
-* interactive breadcrumb trail helps to emphasize the sequence, so that it is easy for a first-time user to understand what they are seeing
-* percentages are shown explicitly, to help overcome the distortion of the data that occurs when using a radial presentation
-
-If you want to reuse this with your own data, here are some tips for generating the CSV file:
-
-* no header is required (but it's OK if one is present)
-* use a hyphen to separate the steps in the sequence
-* every sequence should have an "end" marker as the last element, *unless* it has been truncated because it is longer than the maximum sequence length (6, in the example). The purpose of the "end" marker is to distinguish a true end point (e.g. the user left the site) from an end point that has been forced by truncation.
-* each line should be a complete path from root to leaf - don't include counts for intermediate steps. For example, include "home-search-end" and "home-search-product-end" but not "home-search" - the latter is computed by the partition layout, by adding up the counts of all the sequences with that prefix.
-* to keep the number of permutations low, use a small number of unique step names, and a small maximum sequence length. Larger numbers of either of these will lead to a very large CSV that will be slow to process.
-* keep the step names short
-`
-    )
-  });
   main.variable(observer("csv")).define("csv", ["d3", "FileAttachment"], async function (d3, FileAttachment) {
     return (
       d3.csvParseRows(await FileAttachment("visit-sequences@1.csv").text())
