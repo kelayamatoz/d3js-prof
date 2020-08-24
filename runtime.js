@@ -396,7 +396,7 @@ const se = /\s+\(\d+:\d+\)$/m;
 class le {
     constructor(e) {
         if (!e) throw new Error("invalid node");
-        this._node = e, e.classList.add("observablehq")
+        this._node =e, e.classList.add("observablehq")
     }
 
     pending() {

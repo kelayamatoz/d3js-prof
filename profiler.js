@@ -1,7 +1,7 @@
 // https://observablehq.com/@kerryrodden/sequences-sunburst@475
 export default function define(runtime, observer) {
   const main = runtime.module();
-  const fileAttachments = new Map([["visit-sequences@1.csv", new URL("./files/4b8bc441afab87356f7b5cc5aef3130f4ca634aaae3a46ba7c0f7950b152bc9cdd9bbddae444d694f3e3b4d43587419a17eb0bd5fbd340ce6d6c7b31907bfc7b", import.meta.url)]]);
+  const fileAttachments = new Map([["visit-sequences@1.csv", new URL("./files/perf.csv", import.meta.url)]]);
   main.builtin("FileAttachment", runtime.fileAttachments(name => fileAttachments.get(name)));
   main.variable(observer()).define(["md"], function (md) {
     return (
@@ -73,7 +73,7 @@ export default function define(runtime, observer) {
       .attr("x", 0)
       .attr("y", 0)
       .attr("dy", "1.5em")
-      .text("of visits begin with this controller.");
+      .text("of runtime is spent on this controller.");
 
     svg
       .attr("viewBox", `${-radius} ${-radius} ${width} ${width}`)
